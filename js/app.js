@@ -32,6 +32,7 @@ function registerOnSubmit() {
 // Put data into database
 function submitSignUpData(responses) {
     alert("Succesfully inputted " + responses + " to the database.");
+    // enter values into table
     window.location.href = "./dashboard.html";
 }
 
