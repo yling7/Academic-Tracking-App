@@ -1,6 +1,24 @@
-/*
-    CODE FOR SIGNUP PAGE
-*/
+/* -----------------------------
+     CONNECT TO MYSQL
+ --------------------------------- */
+
+// var mysql = require('mysql');
+
+// var connection = mysql.createConnection({
+//     host: '107.180.1.16',
+//     user: 'pentest',
+//     password: '!!Pentest'
+// });
+
+// connection.connect(function(err) {
+//     if(err) throw err;
+//     console.log("Connected to the database!");
+// });
+
+
+/* -----------------------------
+    CODE FOR REGISTER PAGE
+ --------------------------------- */
 
 function registerOnSubmit() {
     let user = $("#user").val();
@@ -21,7 +39,7 @@ function registerOnSubmit() {
             alert("Please complete all fields.");
             break;
         } else {
-            submitSignUpData(responses);
+            insertSignUpData(responses);
             alert("Account succesfully created!");
             window.location.href = "index.html"
             break;
@@ -30,9 +48,23 @@ function registerOnSubmit() {
 }
 
 // Put data into database
-function submitSignUpData(responses) {
-    alert("Succesfully inputted " + responses + " to the database.");
-    // enter values into table
+function insertSignUpData(responses) {
+    connection.connect(function(err) {
+        if(err) throw err;
+        console.log("Connected!");
+
+        var insertStatement = "INSERT INTO User_Account (user_ID, University_name, Fname, Lname, Password,Major) VALUES ("
+                    + "'" + user + "'" + ","
+                    + "'" + uni + "'" + ","
+                    + "'" + fname + "'" + ","
+                    + "'" + lname + "'" + ","
+                    + "'" + pass + "'" + ")";
+        
+        connection.query(insertStatement, function(err, result) {
+            if(err) throw err;
+            console.log("Succesfully inputted " + responses + " to the database.");
+        });
+    });
     window.location.href = "./dashboard.html";
 }
 
@@ -63,7 +95,7 @@ function submitGradeEntryData() {
                 alert("GPA cannot be over 4.0.");
                 break;
             } else {
-                submitSignUpData(required);
+                insertSignUpData(required);
                 break;
             }
         }
@@ -80,7 +112,7 @@ function submitGradeEntryData() {
                 alert("Grade cannot be over 100.");
                 break;
             } else {
-                submitSignUpData(fullGrades);
+                insertSignUpData(fullGrades);
                 break;
             }
         }
