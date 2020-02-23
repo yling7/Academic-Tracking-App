@@ -1,19 +1,8 @@
 /* -----------------------------
-     CONNECT TO MYSQL
+     CONNECT TO BACKEND
  --------------------------------- */
 
-// var mysql = require('mysql');
-
-// var connection = mysql.createConnection({
-//     host: '107.180.1.16',
-//     user: 'pentest',
-//     password: '!!Pentest'
-// });
-
-// connection.connect(function(err) {
-//     if(err) throw err;
-//     console.log("Connected to the database!");
-// });
+// insert ajax code here
 
 
 /* -----------------------------
@@ -29,11 +18,18 @@ function registerOnSubmit() {
     let confirm = $("#confirm").val();
     let responses = [user, uni, fname, lname, pass, confirm];
 
+    // form validation
     for (var i = 0; i < responses.length; i++) {
         if (pass != confirm) {
             alert("Passwords don't match.");
             break;
         }
+
+        if(pass.length > 45) {
+            alert("Password must be less than 45 characters.");
+        }
+
+        
 
         if (responses[i] == "") {
             alert("Please complete all fields.");
