@@ -49,7 +49,7 @@ function insertSignUpData(responses) {
         if(err) throw err;
         console.log("Connected!");
 
-        var insertStatement = "INSERT INTO User_Account (user_ID, University_name, Fname, Lname, Password,Major) VALUES ("
+        var insertStatement = "INSERT INTO User_Account (user_ID, University_name, Fname, Lname, Password, Major) VALUES ("
                     + "'" + user + "'" + ","
                     + "'" + uni + "'" + ","
                     + "'" + fname + "'" + ","
