@@ -53,7 +53,7 @@ function registerOnSubmit() {
         } else {
             insertSignUpData(responses);
             // insert code to create Account class?
-            alert("Account succesfully created!");
+            // alert("Account succesfully created!");
             // window.location.href = "index.html"
             break;
         }
@@ -71,6 +71,7 @@ function insertSignUpData(responses) {
 
     console.log(userData);
 
+    // Call C# metohd to insert into table
     $.ajax({
         type: 'POST',
         url: "/AccountServices.asmx.cs/RequestAccount",

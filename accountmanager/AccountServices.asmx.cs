@@ -81,8 +81,8 @@ namespace accountmanager
 
 		//EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
 		[WebMethod(EnableSession = true)]
-		// public void RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
-		public void RequestAccount(object userData)
+		public void RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
+		//public void RequestAccount(object userData)
 		{
 			string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["pentest"].ConnectionString;
 			//the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
@@ -135,7 +135,7 @@ namespace accountmanager
 				DataTable sqlDt = new DataTable("accounts");
 
 				string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["pentest"].ConnectionString;
-				string sqlSelect = "select id, user_ID, Password, Fname, Lname, University_name, Major from accounts order by lastname";
+				string sqlSelect = "select user_ID, University_name, Fname, Lname, Password, Major from accounts order by lastname";
 
 				MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
 				MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
@@ -156,8 +156,7 @@ namespace accountmanager
 					{
 						accounts.Add(new Account
 						{
-							id = Convert.ToInt32(sqlDt.Rows[i]["id"]),
-							userId = sqlDt.Rows[i]["userid"].ToString(),
+							userId = Convert.ToInt32(sqlDt.Rows[i]["User_id"]),
 							password = sqlDt.Rows[i]["pass"].ToString(),
 							firstName = sqlDt.Rows[i]["firstname"].ToString(),
 							lastName = sqlDt.Rows[i]["lastname"].ToString(),

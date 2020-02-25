@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\accountmanager"
+    "\\accountmanager",
+    "\\accountmanager\\js"
   ],
   "SelectedNode": "\\accountmanager\\index.html",
   "PreviewInSolutionExplorer": false

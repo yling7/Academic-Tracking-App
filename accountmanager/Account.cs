@@ -16,5 +16,8 @@ namespace accountmanager
 		public string lastName;
 		public string password;
 		public string major;
+
+
+
 	}
 }
