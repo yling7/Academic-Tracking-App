@@ -10,11 +10,11 @@ namespace accountmanager
 		//this is just a container for all info related
 		//to an account.  We'll simply create public class-level
 		//variables representing each piece of information!
-		public int id;
-		public string userId;
-		public string password;
-		public string firstName;
+		public int userId;
+		public string university;
+		public string firstname;
 		public string lastName;
-		public string email;
+		public string password;
+		public string major;
 	}
 }

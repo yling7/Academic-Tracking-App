@@ -1,33 +1,45 @@
 /* -----------------------------
-     CONNECT TO MYSQL
+    AJAX
  --------------------------------- */
+// window.onload = function() {
+//     var http = new XMLHttpRequest();
+// }
 
-// var mysql = require('mysql');
+// const express = require('express');
+// const request = requires('request');
 
-// var connection = mysql.createConnection({
-//     host: '107.180.1.16',
-//     user: 'pentest',
-//     password: '!!Pentest'
+// const app = express();
+
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', "*");
+//     next();
 // });
 
-// connection.connect(function(err) {
-//     if(err) throw err;
-//     console.log("Connected to the database!");
-// });
-
+// app.get('/', (req, res) => {
+//     request(
+//       { url: '/' },
+//       (error, response, body) => {
+//         if (error || response.statusCode !== 200) {
+//           return res.status(500).json({ type: 'error', message: err.message });
+//         }
+  
+//         res.json(JSON.parse(body));
+//       }
+//     )
+//   });
 
 /* -----------------------------
     CODE FOR REGISTER PAGE
  --------------------------------- */
 
 function registerOnSubmit() {
-    let user = $("#user").val();
+    // let user = $("#user").val();
     let uni = $("#uni").val();
     let fname = $("#fname").val();
     let lname = $("#lname").val();
     let pass = $("#pass").val();
     let confirm = $("#confirm").val();
-    let responses = [user, uni, fname, lname, pass, confirm];
+    let responses = [uni, fname, lname, pass, confirm];
 
     for (var i = 0; i < responses.length; i++) {
         if (pass != confirm) {
@@ -40,8 +52,9 @@ function registerOnSubmit() {
             break;
         } else {
             insertSignUpData(responses);
+            // insert code to create Account class?
             alert("Account succesfully created!");
-            window.location.href = "index.html"
+            // window.location.href = "index.html"
             break;
         }
     }
@@ -49,23 +62,37 @@ function registerOnSubmit() {
 
 // Put data into database
 function insertSignUpData(responses) {
-    connection.connect(function(err) {
-        if(err) throw err;
-        console.log("Connected!");
+    let userData = {
+        "uni": responses[0],
+        "fname": responses[1],
+        "lname": responses[2],
+        "pass": responses[3]
+    };
 
-        var insertStatement = "INSERT INTO User_Account (user_ID, University_name, Fname, Lname, Password,Major) VALUES ("
-                    + "'" + user + "'" + ","
-                    + "'" + uni + "'" + ","
-                    + "'" + fname + "'" + ","
-                    + "'" + lname + "'" + ","
-                    + "'" + pass + "'" + ")";
-        
-        connection.query(insertStatement, function(err, result) {
-            if(err) throw err;
-            console.log("Succesfully inputted " + responses + " to the database.");
-        });
+    console.log(userData);
+
+    // $.ajax({
+    //     type: "POST",
+    //     url: "AccountServices.asmx.cs",
+    //     data: JSON.stringify(userData),
+    //     contentType: "application/json",
+    //     dataType: "json",
+    //     success: function(result) {
+    //         alert(result.d);
+    //     }
+    // });
+
+    $.ajax({
+        type: 'POST',
+        url: "/AccountServices.asmx.cs",
+        data: JSON.stringify(userData),
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function(msg) {
+            console.log("success");
+        }
     });
-    window.location.href = "./dashboard.html";
+
 }
 
 /* 

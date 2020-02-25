@@ -82,21 +82,22 @@ namespace accountmanager
 		//EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
 		[WebMethod(EnableSession = true)]
 		public void RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
+		// public void RequestAccount(object userData)
 		{
 			string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["pentest"].ConnectionString;
 			//the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
 			//does is tell mySql server to return the primary key of the last inserted row.
-			string sqlSelect = "insert into accounts (user_ID, Password, Fname, Lname, University_name, Major) " +
-				"values(@user_IDValue, @PasswordValue, @FnameValue, @LnameValue, @University_nameValue, @MajorValue); SELECT LAST_INSERT_ID();";
+			string sqlSelect = "insert into accounts (user_ID, University_name, Fname, Lname, Password, Major) " +
+				"values(@user_IDValue, @University_nameValue, @FnameValue, @LnameValue, @PasswordValue, @MajorValue); SELECT LAST_INSERT_ID();";
 
 			MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
 			MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
 
 			sqlCommand.Parameters.AddWithValue("@user_IDValue", HttpUtility.UrlDecode(uid));
-			sqlCommand.Parameters.AddWithValue("@PasswordValue", HttpUtility.UrlDecode(pass));
+			sqlCommand.Parameters.AddWithValue("@University_nameValue", HttpUtility.UrlDecode(univ_name));
 			sqlCommand.Parameters.AddWithValue("@FnameValue", HttpUtility.UrlDecode(firstName));
 			sqlCommand.Parameters.AddWithValue("@LnameValue", HttpUtility.UrlDecode(lastName));
-			sqlCommand.Parameters.AddWithValue("@University_nameValue", HttpUtility.UrlDecode(univ_name));
+			sqlCommand.Parameters.AddWithValue("@PasswordValue", HttpUtility.UrlDecode(pass));
             sqlCommand.Parameters.AddWithValue("@MajorValue", HttpUtility.UrlDecode(major));
 
             //this time, we're not using a data adapter to fill a data table.  We're just

@@ -19,3 +19,6 @@ C:\Users\jacobnorwood\Documents\accountmanager\accountmanager\obj\Debug\accountm
 C:\Users\jacobnorwood\Documents\accountmanager\accountmanager\obj\Debug\accountmanager.dll
 C:\Users\jacobnorwood\Documents\accountmanager\accountmanager\obj\Debug\accountmanager.pdb
 C:\Users\jacobnorwood\Documents\accountmanager\accountmanager\obj\Debug\accountmanager.csprojAssemblyReference.cache
+C:\Users\bbasche\Source\Repos\Academic-Tracking-App\accountmanager\obj\Debug\accountmanager.csprojAssemblyReference.cache
+C:\Users\bbasche\Source\Repos\Academic-Tracking-App\accountmanager\obj\Debug\accountmanager.dll
+C:\Users\bbasche\Source\Repos\Academic-Tracking-App\accountmanager\obj\Debug\accountmanager.pdb
