@@ -157,10 +157,11 @@ namespace accountmanager
 						accounts.Add(new Account
 						{
 							userId = Convert.ToInt32(sqlDt.Rows[i]["User_id"]),
-							password = sqlDt.Rows[i]["pass"].ToString(),
-							firstName = sqlDt.Rows[i]["firstname"].ToString(),
-							lastName = sqlDt.Rows[i]["lastname"].ToString(),
-							email = sqlDt.Rows[i]["email"].ToString()
+							password = sqlDt.Rows[i]["Password"].ToString(),
+							firstName = sqlDt.Rows[i]["Fname"].ToString(),
+							lastName = sqlDt.Rows[i]["Lname"].ToString(),
+							email = sqlDt.Rows[i]["Email"].ToString(),
+							major = sqlDt.Rows[i]["Major"].ToString()
 						});
 					}
 					else
