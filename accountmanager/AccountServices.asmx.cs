@@ -81,8 +81,8 @@ namespace accountmanager
 
 		//EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
 		[WebMethod(EnableSession = true)]
-		public void RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
-		// public void RequestAccount(object userData)
+		// public void RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
+		public void RequestAccount(object userData)
 		{
 			string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["pentest"].ConnectionString;
 			//the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that

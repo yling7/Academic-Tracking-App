@@ -71,21 +71,10 @@ function insertSignUpData(responses) {
 
     console.log(userData);
 
-    // $.ajax({
-    //     type: "POST",
-    //     url: "AccountServices.asmx.cs",
-    //     data: JSON.stringify(userData),
-    //     contentType: "application/json",
-    //     dataType: "json",
-    //     success: function(result) {
-    //         alert(result.d);
-    //     }
-    // });
-
     $.ajax({
         type: 'POST',
-        url: "/AccountServices.asmx.cs",
-        data: JSON.stringify(userData),
+        url: "/AccountServices.asmx.cs/RequestAccount",
+        data: userData,
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         success: function(msg) {
