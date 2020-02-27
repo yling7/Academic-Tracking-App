@@ -1,34 +1,4 @@
 /* -----------------------------
-    AJAX
- --------------------------------- */
-// window.onload = function() {
-//     var http = new XMLHttpRequest();
-// }
-
-// const express = require('express');
-// const request = requires('request');
-
-// const app = express();
-
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', "*");
-//     next();
-// });
-
-// app.get('/', (req, res) => {
-//     request(
-//       { url: '/' },
-//       (error, response, body) => {
-//         if (error || response.statusCode !== 200) {
-//           return res.status(500).json({ type: 'error', message: err.message });
-//         }
-  
-//         res.json(JSON.parse(body));
-//       }
-//     )
-//   });
-
-/* -----------------------------
     CODE FOR REGISTER PAGE
  --------------------------------- */
 
@@ -74,7 +44,7 @@ function insertSignUpData(responses) {
     // Call C# metohd to insert into table
     $.ajax({
         type: 'POST',
-        url: "/AccountServices.asmx.cs/RequestAccount",
+        url: "AccountServices.asmx/RequestAccount",
         data: userData,
         contentType: "application/json; charset=utf-8",
         dataType: 'json',

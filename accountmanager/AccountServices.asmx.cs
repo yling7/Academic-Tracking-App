@@ -81,7 +81,7 @@ namespace accountmanager
 
 		//EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
 		[WebMethod(EnableSession = true)]
-		public void RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
+		public void	RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
 		//public void RequestAccount(object userData)
 		{
 			string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["pentest"].ConnectionString;
@@ -160,7 +160,6 @@ namespace accountmanager
 							password = sqlDt.Rows[i]["Password"].ToString(),
 							firstName = sqlDt.Rows[i]["Fname"].ToString(),
 							lastName = sqlDt.Rows[i]["Lname"].ToString(),
-							email = sqlDt.Rows[i]["Email"].ToString(),
 							major = sqlDt.Rows[i]["Major"].ToString()
 						});
 					}
@@ -168,10 +167,9 @@ namespace accountmanager
 					{
 						accounts.Add(new Account
 						{
-							id = Convert.ToInt32(sqlDt.Rows[i]["id"]),
-							firstName = sqlDt.Rows[i]["firstname"].ToString(),
-							lastName = sqlDt.Rows[i]["lastname"].ToString(),
-							email = sqlDt.Rows[i]["email"].ToString()
+							userId = Convert.ToInt32(sqlDt.Rows[i]["id"]),
+							firstName = sqlDt.Rows[i]["Fname"].ToString(),
+							lastName = sqlDt.Rows[i]["Lname"].ToString()
 						});
 					}
 				}
@@ -239,7 +237,7 @@ namespace accountmanager
 
 				string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
 				//requests just have active set to 0
-				string sqlSelect = "select id, userid, pass, firstname, lastname, email from accounts where active=0 order by lastname";
+				string sqlSelect = "select id, userid, pass, firstname, lastname from accounts where active=0 order by lastname";
 
 				MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
 				MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
@@ -252,10 +250,9 @@ namespace accountmanager
 				{
 					accountRequests.Add(new Account
 					{
-						id = Convert.ToInt32(sqlDt.Rows[i]["id"]),
+						userId = Convert.ToInt32(sqlDt.Rows[i]["user_ID"]),
 						firstName = sqlDt.Rows[i]["firstname"].ToString(),
-						lastName = sqlDt.Rows[i]["lastname"].ToString(),
-						email = sqlDt.Rows[i]["email"].ToString()
+						lastName = sqlDt.Rows[i]["lastname"].ToString()
 					});
 				}
 				//convert the list of accounts to an array and return!

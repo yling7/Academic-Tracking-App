@@ -12,7 +12,7 @@ namespace accountmanager
 		//variables representing each piece of information!
 		public int userId;
 		public string university;
-		public string firstname;
+		public string firstName;
 		public string lastName;
 		public string password;
 		public string major;
