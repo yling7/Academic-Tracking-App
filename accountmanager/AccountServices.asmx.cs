@@ -122,65 +122,39 @@ namespace accountmanager
 
 		//EXAMPLE OF A SELECT, AND RETURNING "COMPLEX" DATA TYPES
 		[WebMethod(EnableSession = true)]
-		public Account[] GetAccounts()
+		public Grade[] GetAccounts()
 		{
-			//check out the return type.  It's an array of Account objects.  You can look at our custom Account class in this solution to see that it's 
-			//just a container for public class-level variables.  It's a simple container that asp.net will have no trouble converting into json.  When we return
+			//check out the return type. It's an array of Account objects. You can look at our custom Account class in this solution to see that it's 
+			//just a container for public class-level variables. It's a simple container that asp.net will have no trouble converting into json. When we return
 			//sets of information, it's a good idea to create a custom container class to represent instances (or rows) of that information, and then return an array of those objects.  
 			//Keeps everything simple.
-
-			//WE ONLY SHARE ACCOUNTS WITH LOGGED IN USERS!
-			if (Session["id"] != null)
+			//LOGIC: get all the active accounts and return them!
+			DataTable sqlDt = new DataTable("grades");
+			string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["pentest"].ConnectionString;
+			string sqlSelect = "select Year, Term, Total_Credits, user_ID, CurrentGPA from Grades order by user_ID";
+			MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+			MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+			//gonna use this to fill a data table
+			MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+			//filling the data table
+			sqlDa.Fill(sqlDt);
+			//loop through each row in the dataset, creating instances
+			//of our container class Account. Fill each acciount with
+			//data from the rows, then dump them in a list.
+			List<Grade> grades = new List<Grade>();
+			for (int i = 0; i < sqlDt.Rows.Count; i++)
 			{
-				DataTable sqlDt = new DataTable("accounts");
-
-				string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["pentest"].ConnectionString;
-				string sqlSelect = "select user_ID, University_name, Fname, Lname, Password, Major from accounts order by lastname";
-
-				MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
-				MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
-
-				//gonna use this to fill a data table
-				MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
-				//filling the data table
-				sqlDa.Fill(sqlDt);
-
-				//loop through each row in the dataset, creating instances
-				//of our container class Account.  Fill each acciount with
-				//data from the rows, then dump them in a list.
-				List<Account> accounts = new List<Account>();
-				for (int i = 0; i < sqlDt.Rows.Count; i++)
+				grades.Add(new Grade
 				{
-					//only share user id and pass info with admins!
-					if (Convert.ToInt32(Session["admin"]) == 1)
-					{
-						accounts.Add(new Account
-						{
-							userId = Convert.ToInt32(sqlDt.Rows[i]["User_id"]),
-							password = sqlDt.Rows[i]["Password"].ToString(),
-							firstName = sqlDt.Rows[i]["Fname"].ToString(),
-							lastName = sqlDt.Rows[i]["Lname"].ToString(),
-							major = sqlDt.Rows[i]["Major"].ToString()
-						});
-					}
-					else
-					{
-						accounts.Add(new Account
-						{
-							userId = Convert.ToInt32(sqlDt.Rows[i]["id"]),
-							firstName = sqlDt.Rows[i]["Fname"].ToString(),
-							lastName = sqlDt.Rows[i]["Lname"].ToString()
-						});
-					}
-				}
-				//convert the list of accounts to an array and return!
-				return accounts.ToArray();
+					Year = Convert.ToInt32(sqlDt.Rows[i]["Year"]),
+					user_ID = Convert.ToInt32(sqlDt.Rows[i]["user_ID"]),
+					Term = sqlDt.Rows[i]["Term"].ToString(),
+					Total_Credits = Convert.ToDouble(sqlDt.Rows[i]["Total_Credits"]),
+					CurrentGPA = Convert.ToDouble(sqlDt.Rows[i]["CurrentGPA"]),
+				});
 			}
-			else
-			{
-				//if they're not logged in, return an empty array
-				return new Account[0];
-			}
+			//convert the list of accounts to an array and return!
+			return grades.ToArray();
 		}
 
 		//EXAMPLE OF AN UPDATE QUERY WITH PARAMS PASSED IN
