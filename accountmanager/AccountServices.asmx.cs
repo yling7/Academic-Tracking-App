@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
-
-//we need these to talk to mysql
-using MySql.Data;
+﻿//we need these to talk to mysql
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 //and we need this to manipulate data from a db
 using System.Data;
+using System.Web;
+using System.Web.Script.Services;
+using System.Web.Services;
 
 namespace accountmanager
 {
@@ -81,7 +79,7 @@ namespace accountmanager
 
 		//EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
 		[WebMethod(EnableSession = true)]
-		public void	RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
+		public void RequestAccount(string uid, string pass, string firstName, string lastName, string univ_name, string major)
 		//public void RequestAccount(object userData)
 		{
 			string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["pentest"].ConnectionString;
@@ -98,13 +96,13 @@ namespace accountmanager
 			sqlCommand.Parameters.AddWithValue("@FnameValue", HttpUtility.UrlDecode(firstName));
 			sqlCommand.Parameters.AddWithValue("@LnameValue", HttpUtility.UrlDecode(lastName));
 			sqlCommand.Parameters.AddWithValue("@PasswordValue", HttpUtility.UrlDecode(pass));
-            sqlCommand.Parameters.AddWithValue("@MajorValue", HttpUtility.UrlDecode(major));
+			sqlCommand.Parameters.AddWithValue("@MajorValue", HttpUtility.UrlDecode(major));
 
-            //this time, we're not using a data adapter to fill a data table.  We're just
-            //opening the connection, telling our command to "executescalar" which says basically
-            //execute the query and just hand me back the number the query returns (the ID, remember?).
-            //don't forget to close the connection!
-            sqlConnection.Open();
+			//this time, we're not using a data adapter to fill a data table.  We're just
+			//opening the connection, telling our command to "executescalar" which says basically
+			//execute the query and just hand me back the number the query returns (the ID, remember?).
+			//don't forget to close the connection!
+			sqlConnection.Open();
 			//we're using a try/catch so that if the query errors out we can handle it gracefully
 			//by closing the connection and moving on
 			try
@@ -122,7 +120,8 @@ namespace accountmanager
 
 		//EXAMPLE OF A SELECT, AND RETURNING "COMPLEX" DATA TYPES
 		[WebMethod(EnableSession = true)]
-		public Grade[] GetAccounts()
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+		public void GetAccounts()
 		{
 			//check out the return type. It's an array of Account objects. You can look at our custom Account class in this solution to see that it's 
 			//just a container for public class-level variables. It's a simple container that asp.net will have no trouble converting into json. When we return
@@ -154,7 +153,10 @@ namespace accountmanager
 				});
 			}
 			//convert the list of accounts to an array and return!
-			return grades.ToArray();
+			//return grades.ToArray();
+			System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+			this.Context.Response.ContentType = "application/json; charset=utf-8";
+			this.Context.Response.Write(jss.Serialize(grades.ToArray())); 
 		}
 
 		//EXAMPLE OF AN UPDATE QUERY WITH PARAMS PASSED IN

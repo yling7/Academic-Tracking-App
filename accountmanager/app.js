@@ -1,5 +1,5 @@
-//google.charts.load('current', { 'packages': ['corechart'] });
-//google.charts.setOnLoadCallback(getChartData);
+google.charts.load('current', { 'packages': ['corechart'] });
+google.charts.setOnLoadCallback(getChartData);
 
 /* -----------------------------
     CODE FOR REGISTER PAGE
@@ -47,7 +47,7 @@ function insertSignUpData(responses) {
     // Call C# metohd to insert into table
     $.ajax({
         type: 'POST',
-        url: "\AccountServices.asmx\RequestAccount",
+        url: "AccountServices.asmx.cs/RequestAccount",
         data: userData,
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
@@ -111,25 +111,25 @@ function submitGradeEntryData() {
 }
 
 // GetAccounts js and ajax call
-window.onload = function() {
-    console.log("hello world")
+function getChartData() {
+    console.log("hello world");
     $.ajax({
-        url: "./AccountServices.asmx.cs",
+        url: "AccountServices.asmx/GetAccounts",
         type: "POST",
         dataType: "json",
-        contextType: "application/json",
+        contextType: "application/json; charset=utf-8",
         data: { action: "getChartData" },
         traditional: true,
         success: function (results) {
-            console.log(grades);
-            //var data = google.visualization.arrayToDataTable(grades);
-            //var options = {
-            //    title: 'My Daily Activities'
-            //};
-            //var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-            //chart.draw(data, options);
+            var data = google.visualization.arrayToDataTable(grades);
+            var options = {
+                title: 'My Daily Activities'
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
 
-            //console.log(data);
+            console.log(data);
+            
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('Could not get posts, server response: ' + textStatus + ': ' + errorThrown);
